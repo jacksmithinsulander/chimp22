@@ -1,0 +1,196 @@
+points:
+  zones:
+    matrix:
+      columns:
+        ring:
+          key:
+            spread: 18
+            stagger: 17
+            splay: -10
+            origin: [0, -17]
+          rows:
+            bottom:
+              bind: [3, 3, 0, 0]
+              column_net: P4
+            home:
+              bind: [0, 5, 1, 0]
+              column_net: P3
+        middle:
+          key:
+            shift: [0.2, 0]
+            spread: 18
+            stagger: 17/3
+            splay: -5
+            origin: [0, -17]
+          rows:
+            bottom:
+              bind: [0, 0, 0, 0]
+              column_net: P1
+            home:
+              bind: [0, 0, 0, 0]
+              column_net: P19
+        index:
+          key:
+            spread: 20
+            stagger: -17/3
+            splay: -5
+            origin: [0, -17]
+          rows:
+            bottom:
+              bind: [0, 0, 2, 4]
+              column_net: P15
+            home:
+              bind: [0, 0, 2, 6]
+              column_net: P14
+      rows:
+        bottom:
+          padding: 17
+    inner:
+      anchor:
+        ref: matrix_index_bottom
+        shift: [20, 6]
+      key:
+        origin: [0, -17]
+      rows: 
+        home:
+          bind: [0, 0, 0, 3]
+          column_net: P14
+    pinky:
+      anchor:
+        ref: matrix_ring_bottom
+        shift: [-20,-15]
+      columns:
+        first:
+          key:
+            spread: 19
+            stagger: 0.25cy
+            splay: 10 
+            rotate: 90
+            tags:
+              15u: true
+          rows:
+            pinky:
+              bind: [0, 5, 21, 5]
+              column_net: P1
+    thumbfan:
+      anchor:
+        ref: matrix_index_bottom
+        shift: [11, -27]
+      columns:
+        near:
+          rows:
+            thumbfan:
+              column_net: P9
+              bind: [0, 0, 0, 0]
+        home:
+          key:
+            spread: 21.25
+            splay: -28
+            origin: [-11.75, -9]
+          rows:
+            thumbfan:
+              column_net: P9
+              bind: [0, 27, 10, 66]
+        far:
+          key:
+            spread: 21.25
+            splay: -28
+            origin: [-9.5, -9]
+          rows:
+            thumbfan:
+              column_net: P9
+              bind: [0, 0, 0, 0]
+      key:
+        footprints:
+
+outlines:
+  raw:
+    - what: rectangle
+      where: true
+      bound: true
+      asym: left
+      size: [18,17]
+      corner: 1
+  first:
+    - what: outline
+      name: raw
+      fillet: 3
+  second:
+    - what: outline
+      name: first
+      fillet: 2
+  third:
+    - what: outline
+      name: second
+      fillet: 1
+  panel:
+    - what: outline
+      name: third
+      fillet: 0.5
+pcbs:
+  architeuthis_dux:
+    outlines:
+      main:
+        outline: panel
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          from: =column_net
+          to: GND
+          keycaps: true
+          reverse: true
+          hotswap: true
+      choc:
+        what: choc
+        where: true
+        adjust:
+          rotate: 180
+        params:
+          from: =column_net
+          to: GND
+          keycaps: true
+          reverse: true
+      promicro:
+        what: promicro
+        where:
+          ref: matrix_index_home
+          shift: [0.95u, -0.5u]
+          rotate: -90
+        params:
+          orientation: down
+      trrs:
+        what: trrs
+        where:
+          ref: matrix_index_bottom
+          shift: [2, 1.1u]
+          rotate: 0
+        params:
+          A: GND
+          B: GND
+          C: P1
+          D: VCC
+          reverse: true
+          symmetric: true
+      reset:
+        what: button
+        where:
+          ref:
+            - matrix_ring_home
+          shift: [-0.7u, 0]
+          rotate: 90
+        params:
+          from: RST
+          to: GND
+      resetbottom:
+        what: button
+        where:
+          ref:
+            - matrix_ring_home
+          shift: [-0.7u, 0]
+          rotate: 90
+        params:
+          from: RST
+          to: GND
+          side: B
